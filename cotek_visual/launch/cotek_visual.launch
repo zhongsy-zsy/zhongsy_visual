@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+	<node pkg="cotek_visual" type="cotek_visual_node" name="cotek_visual_node" respawn="false" output="screen">
+	</node>
+</launch>
