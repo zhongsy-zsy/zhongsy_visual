@@ -31,6 +31,7 @@ struct D435_basic_config_ {
   float left_delta_of_D435;
   double up_pile;
   bool enable_visual_debug;
+  bool enable_avoid;
 };
 
 struct ROI_Factory {

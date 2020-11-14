@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <launch>
-	<node pkg="cotek_visual" type="cotek_visual_node" name="cotek_visual_node" respawn="false" output="screen">
+	<rosparam file="$(find cotek_visual)/config/visual_config.yaml" command="load"  />
+	<node pkg="cotek_visual" type="cotek_visual_node" name="cotek_visual_node" respawn="false" output="screen">	
 	</node>
+
+
+      <!-- <node pkg="cotek_dynamic" type="cotek_dynamic_node" name="dynamic_node" output="screen" /> -->
+
+      <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" output="screen" />
+
 </launch>

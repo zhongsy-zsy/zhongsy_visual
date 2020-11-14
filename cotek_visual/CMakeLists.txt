@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   cv_bridge REQUIRED
   image_transport REQUIRED
+  message_generation
+  dynamic_reconfigure
 #   cotek_common
 #   cotek_msgs
 )
@@ -97,10 +99,10 @@ find_package(realsense2 REQUIRED)
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
+generate_dynamic_reconfigure_options(
 #   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+  cfg/dynamic.cfg
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -113,8 +115,8 @@ find_package(realsense2 REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES cotek_visual
- CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs
+ LIBRARIES cotek_visual
+ CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs dynamic_reconfigure
 #  DEPENDS system_lib
 )
 
@@ -156,7 +158,7 @@ add_executable(${PROJECT_NAME}_node src/cotek_visual_node.cc)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} )
 
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 ## Specify libraries to link a library or executable target against

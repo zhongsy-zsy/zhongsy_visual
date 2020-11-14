@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "cotek_visual/d435_driver.h"
+#include "cotek_visual/dynamicConfig.h"
 
 RealSenseOption ConfigFileToVisualOption(std::string config_string);
 
@@ -38,7 +39,9 @@ class VisualNode final {
     return d435_driver_ptr_->Init();
   }
 
- 
+  void dynamic_callback(cotek_dynamic::dynamicConfig& config) {
+    d435_driver_ptr_->dynamic_callback(config);
+  }
 
   inline void Run() { d435_driver_ptr_->Run(); }
 
@@ -71,19 +74,35 @@ RealSenseOption Load_visaul_config() {
   RealSenseOption option = {};
   option.D435_basic_config.arethread.resize(2);
   option.D435_basic_config.up_to_nums.resize(2);
-  nh.param("arethread_0", option.D435_basic_config.arethread[0], 1000);
-  nh.param("arethread_1", option.D435_basic_config.arethread[1], 100);
-  nh.param("enable_visual_debug", option.D435_basic_config.enable_visual_debug,
-           false);
-  nh.param("left_delta_of_D435", option.D435_basic_config.left_delta_of_D435,
-           40.f);
-  nh.param("nums", option.D435_basic_config.nums, 3);
-  nh.param("threshold_x", option.D435_basic_config.threshold_x, 50);
-  nh.param("threshold_y", option.D435_basic_config.threshold_y, 50);
-  nh.param("up_num", option.D435_basic_config.up_num, 2);
-  nh.param("up_pile", option.D435_basic_config.up_pile, 0.0);
-  nh.param("up_to_nums_0", option.D435_basic_config.up_to_nums[0], 0.5);
-  nh.param("up_to_nums_1", option.D435_basic_config.up_to_nums[1], 1.5);
+  nh.getParam("arethread_0", option.D435_basic_config.arethread[0]);
+  nh.getParam("arethread_1", option.D435_basic_config.arethread[1]);
+  nh.getParam("enable_visual_debug",
+              option.D435_basic_config.enable_visual_debug);
+  nh.getParam("left_delta_of_D435",
+              option.D435_basic_config.left_delta_of_D435);
+  nh.getParam("nums", option.D435_basic_config.nums);
+  nh.getParam("threshold_x", option.D435_basic_config.threshold_x);
+  nh.getParam("threshold_y", option.D435_basic_config.threshold_y);
+  nh.getParam("up_num", option.D435_basic_config.up_num);
+  nh.getParam("up_pile", option.D435_basic_config.up_pile);
+  nh.getParam("up_to_nums_0", option.D435_basic_config.up_to_nums[0]);
+  nh.getParam("up_to_nums_1", option.D435_basic_config.up_to_nums[1]);
+  nh.getParam("enable_avoid", option.D435_basic_config.enable_avoid);
+
+  ROS_INFO("arethread_0 : %d", option.D435_basic_config.arethread[0]);
+  ROS_INFO("arethread_1 : %d", option.D435_basic_config.arethread[1]);
+  ROS_INFO("enable_visual_debug : %d",
+           option.D435_basic_config.enable_visual_debug);
+  ROS_INFO("left_delta_of_D435 : %f",
+           option.D435_basic_config.left_delta_of_D435);
+  ROS_INFO("nums : %d ", option.D435_basic_config.nums);
+  ROS_INFO("threshold_x : %d", option.D435_basic_config.threshold_x);
+  ROS_INFO("threshold_y : %d", option.D435_basic_config.threshold_y);
+  ROS_INFO("up_num  : %d", option.D435_basic_config.up_num);
+  ROS_INFO("up_pile : %f", option.D435_basic_config.up_pile);
+  ROS_INFO("up_to_nums_0 : %f", option.D435_basic_config.up_to_nums[0]);
+  ROS_INFO("up_to_nums_1 : %f", option.D435_basic_config.up_to_nums[1]);
+  ROS_INFO("enable_avoid : %d", option.D435_basic_config.enable_avoid);
 
   return option;
 }

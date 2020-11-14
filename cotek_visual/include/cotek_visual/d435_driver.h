@@ -6,6 +6,7 @@
 #define COTEK_VISUAL_INCLUDE_COTEK_VISUAL_D435_DRIVER_H_
 
 #include <cv_bridge/cv_bridge.h>
+#include <dynamic_reconfigure/server.h>
 #include <image_transport/image_transport.h>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
@@ -20,6 +21,7 @@
 #include <thread>
 #include <vector>
 
+#include "cotek_visual/dynamicConfig.h"
 #include "cotek_visual/thread_pool.h"
 #include "cotek_visual_options.h"
 
@@ -52,9 +54,12 @@ class D435 {
     Realsense_options_ = option;
     return true;
   }
+  void dynamic_callback(cotek_dynamic::dynamicConfig &config);
 
  private:
   // 自定义接口
+
+
   void Loadvisualconfig();
   void Thresholding(const std::vector<cv::Mat> &data, const cv::Mat &mean_depth,
                     const std::vector<double> &thread_data, int h, int nums,

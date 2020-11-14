@@ -48,6 +48,19 @@ D435::~D435() {
   }
 }
 
+/* 动态调参 */
+void D435::dynamic_callback(cotek_dynamic::dynamicConfig &config) {
+//   ROS_INFO("Reconfigure Request: %s %d %f %f %s %d", config.cmd_topic.c_str(),
+//            config.cmd_pub_rate, config.linear_x, config.angular_z,
+//            config.move_flag ? "True" : "False", config.log_level);
+  
+// Realsense_options_.D435_basic_config.arethread[0]=config.
+
+
+
+
+}
+
 bool D435::Init() {
   try {
     image_transport_ptr_ =
@@ -457,9 +470,9 @@ cv::Vec3f D435::pixel_to_world(cv::Vec3f point) {
 }
 
 void D435::Loadvisualconfig() {
-  if (judge_file("/home/cotek/angle_data.csv")) {
+  if (judge_file("/home/zhongsy/angle_data.csv")) {
     ROS_INFO("load visual_angle");
-    std::ifstream inFile("/home/cotek/angle_data.csv", std::ios::in);
+    std::ifstream inFile("/home/zhongsy/angle_data.csv", std::ios::in);
     std::string value;
     getline(inFile, value);  // 读取整行进value中 读取第一行
     std::stringstream ss(value);
@@ -476,11 +489,11 @@ void D435::Loadvisualconfig() {
     // ROS_ERROR("Please calibrate visual_angle");
   }
 
-  if (judge_file("/home/cotek/mean_depth.png") &&
-      judge_file("/home/cotek/threshold.csv")) {
+  if (judge_file("/home/zhongsy/mean_depth.png") &&
+      judge_file("/home/zhongsy/threshold.csv")) {
     ROS_INFO("load visual_background");
     install_mean_depth_average_ =
-        cv::imread("/home/cotek/mean_depth.png", cv::IMREAD_ANYDEPTH);
+        cv::imread("/home/zhongsy/mean_depth.png", cv::IMREAD_ANYDEPTH);
     // for (int i = 0; i < tmp.rows; i++) {
     //   for (int j = 0; j < tmp.cols; j++) {
     //     install_mean_depth_average_.at<ushort>(i, j) = tmp.at<ushort>(i, j);
@@ -488,7 +501,7 @@ void D435::Loadvisualconfig() {
     // }
 
     // std::cout << "mean_depth" << install_mean_depth_average_ << std::endl;
-    std::ifstream inFile("/home/cotek/threshold.csv", std::ios::in);
+    std::ifstream inFile("/home/zhongsy/threshold.csv", std::ios::in);
     std::string value;
     std::vector<double> data;
     getline(inFile, value);  // 读取整行进value中 读取第一行
@@ -653,7 +666,7 @@ void D435::ProduceFrams() {
 void D435::HandleFeedbackData() {
   Loadvisualconfig();
   while (ros::ok()) {
-    if (enable_avoid_) ProduceFrams();
+    if (Realsense_options_.D435_basic_config.enable_avoid) ProduceFrams();
     // 降低cpu占用率 睡眠时间应小于控制周期
     std::this_thread::sleep_for(
         std::chrono::milliseconds(thread_sleep_frequency_));

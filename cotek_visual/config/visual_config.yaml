@@ -1,0 +1,12 @@
+arethread_0 : 2000
+arethread_1 : 120
+enable_visual_debug : false
+left_delta_of_D435 : 40
+nums : 3
+threshold_x : 400
+threshold_y : 50
+up_num : 2
+up_pile : 0.0
+up_to_nums_0 : 0.5
+up_to_nums_1 : 1.5
+enable_avoid : false

@@ -1,5 +1,7 @@
 #include "node/cotek_visual_node.h"
 
+#include "cotek_visual/dynamicConfig.h"
+
 int main(int argc, char** argv) {
   ros::init(argc, argv, "cotek_visual");
   // Set ros log level:
@@ -19,6 +21,12 @@ int main(int argc, char** argv) {
   auto tmp = std::make_shared<cotek_visual::D435>(option);
 
   VisualNode node(tmp);
+  dynamic_reconfigure::Server<cotek_dynamic::dynamicConfig> server;
+  dynamic_reconfigure::Server<cotek_dynamic::dynamicConfig>::CallbackType
+      callback;
+  callback = boost::bind(&VisualNode::dynamic_callback, &node, _1);
+  server.setCallback(callback);
+
   if (!node.Init(&nh)) {
     ROS_ERROR("cotek_visual");
   }
